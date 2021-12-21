@@ -19,7 +19,7 @@ var defaultResourceManager *ResourceManager
 
 type ResourceManagerOutbound interface {
 	// BranchRegister register branch transaction.
-	BranchRegister(ctx context.Context, xid string, resourceID string, branchType apis.BranchSession_BranchType,
+	BranchRegister(ctx context.Context, xid string, tccAsyncPhaseTwoEnable bool, resourceID string, branchType apis.BranchSession_BranchType,
 		applicationData []byte, lockKeys string) (int64, error)
 
 	// BranchReport report branch transaction status.
@@ -156,11 +156,12 @@ func (manager *ResourceManager) branchCommunicate() {
 	}
 }
 
-func (manager *ResourceManager) BranchRegister(ctx context.Context, xid string, resourceID string,
+func (manager *ResourceManager) BranchRegister(ctx context.Context, xid string, tccAsyncPhaseTwoEnable bool, resourceID string,
 	branchType apis.BranchSession_BranchType, applicationData []byte, lockKeys string) (int64, error) {
 	request := &apis.BranchRegisterRequest{
-		Addressing:      manager.addressing,
-		XID:             xid,
+		Addressing: manager.addressing,
+		XID:        xid,
+		// todo: tccAsyncPhaseTwoEnable
 		ResourceID:      resourceID,
 		LockKey:         lockKeys,
 		BranchType:      branchType,

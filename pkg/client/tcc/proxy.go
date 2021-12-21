@@ -162,7 +162,7 @@ func doTccActionLogStore(ctx *ctx.BusinessActionContext, resource *TCCResource) 
 		return 0, err
 	}
 
-	branchID, err := rm.GetResourceManager().BranchRegister(ctx.RootContext, ctx.XID, resource.GetResourceID(), resource.GetBranchType(), applicationData, "")
+	branchID, err := rm.GetResourceManager().BranchRegister(ctx.RootContext, ctx.XID, ctx.TCCAsyncPhaseTwoEnable, resource.GetResourceID(), resource.GetBranchType(), applicationData, "")
 	if err != nil {
 		log.Errorf("TCC branch Register error, xid: %s", ctx.XID)
 		return 0, errors.WithStack(err)
